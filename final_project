@@ -1,0 +1,181 @@
+import time
+import random as r
+
+# This function shows the beginning of the game, giving instructions and set the score of the game as 0
+
+def start(score):
+    """ Bring score to the funtion 
+    
+    Parameters
+    ----------
+    score : int
+        Score represents as the value zero
+        
+    """
+    
+    # first 6 lines in this function are introduction of the game
+    print('the United States President question and answer drills')
+    # give three seconds between next instructions
+    time.sleep(3) 
+    
+    print("Type the answer you think it is correct")
+    time.sleep(5)
+    
+    print('There are total 3 questions and no time limit to answer each question')
+    time.sleep(3)
+    
+    # give the instruction how to start the game
+    start_button = input("Type 'START' to start the game => ") 
+    if start_button == "START":  
+        print(start_button)
+        # assign basic value 0 to score
+        score = 0 
+        # call the function of questions
+        questions(score)
+        # if not type 'START', it will give one more chance to start the game
+    else: 
+        start_button = input("Type 'START' to start the game => ")
+        
+
+# This function total has three parts. Fist, it shows questions will be asked in the game 
+# Then it gives details that how the score will be added and decuted through the process
+   
+def increment_or_decrement(val, shouldIncreaseVal):
+    """ increase or decrease the score value
+    
+    Parameters
+    ----------
+    val : int
+        The value of score will be added or deducted
+    
+    shouldIncreaseVal: int
+        The value to be added or deducted to val
+    
+    Returns
+    -------
+    val: int
+        The value of score after being added or deducted  
+    """
+    # how the value of the score is being added or deducted during the game
+    if shouldIncreaseVal:
+        val += 1
+    else:
+        val -= 1
+    return val
+
+def right_or_wrong_message(index, shouldOutputRightMessage):
+    """ choose the message for the answers
+     
+    Parameters
+    ----------
+    index : int
+        The position of the message in the list
+    
+    shouldOutputRightMessage: boolean
+        Whether the answer of questions is correct or not
+    
+    Returns
+    -------
+    right_message: str
+        The message that gives to the answer if the answer is correct
+    
+    wrong_message: str
+        The message that gives to the answer if the answer is wrong
+       
+    """
+    # Two lists show the messages for the answers 
+    right_messages = ["Nice Start!", "Keep going!", "Let's go bro!"]
+    wrong_messages = ["Bruh...", "Come on Dude..", "Well..."]
+    
+    # choose the proper message when users answer questions correct or wrong
+    if shouldOutputRightMessage:
+        return right_messages[index]
+    else:
+        return wrong_messages[index]
+
+def questions(score):
+    """ adding up a score or deducting a score 
+    
+    Parameters
+    ----------
+    score : int
+        The score either will be added or deducted by one point based on their answer
+        
+    """
+    
+    # given the information in dictionaries for the questions
+    indexNameDict= {0: "Obama", 1: "Trump", 2: "Biden"}
+    nameAnswersDict = {"Obama": ["2008", "47", "8"], 
+                       "Trump": ["2016", "70", "4"], 
+                       "Biden": ["2020", "78", "1"]}
+
+    # randomly choose the index for questions
+    randomName = indexNameDict[r.randint(0,2)]
+
+    # using if and else statment to display whether users get correct answer or not 
+    # and how the score is added or deducted in the game for question 1
+    question_1 = "Which year was it when " + randomName + " became the President of United States? (4-digit number) => "
+    userAnswer0 = input(question_1)
+    print(userAnswer0)
+    if userAnswer0 == nameAnswersDict[randomName][0]:
+        score = increment_or_decrement(score, True)
+        print(right_or_wrong_message(0, True))
+    else:
+        score = increment_or_decrement(score, False)
+        print(right_or_wrong_message(0, False))
+
+    # using if and else statment to display whether users get correct answer or not 
+    # and how the score is added or deducted in the game for question 2
+    question_2 = "How old was " +  randomName + " when he became the Preisident? => (2-digit number) => "
+    userAnswer1 = input(question_2)
+    print(userAnswer1)
+    if userAnswer1 == nameAnswersDict[randomName][1]:
+        score = increment_or_decrement(score, True)
+        print(right_or_wrong_message(1, True))
+    else:
+        score = increment_or_decrement(score, False)
+        print(right_or_wrong_message(1, False))
+
+    # using if and else statment to display whether users get correct answer or not 
+    # and how the score is added or deducted in the game for question 3
+    question_3 = "How many years did " + randomName + " serve as the President of United States? (1-digit number) => "
+    userAnswer2 = input(question_3)
+    print(userAnswer2)
+    if userAnswer2 == nameAnswersDict[randomName][2]:
+        score = increment_or_decrement(score, True)
+        print(right_or_wrong_message(2, True))
+    else:
+        score = increment_or_decrement(score, False)
+        print(right_or_wrong_message(2, False))
+
+    # call the function game_over after finish answer questions
+    game_over(score) 
+    
+
+# This function gives the final result of the game, which includes the score users get and comments for them
+def game_over(score):
+    """ Show the result of the game
+    
+    Parameters
+    ----------
+    score : int
+        The final score means the results of the game, which means how many point they get
+        
+    """
+    # display the unique message after the game
+    print('GAME OVER') 
+    time.sleep(3)
+    
+    # diplay the points users get in the game
+    print('YOUR SCORE is ' + str(score)) 
+    time.sleep(3)
+    
+    # using if and elif statment display unique message for different range of score
+    if score < 0:
+        print('Foreigner!')
+    
+    elif score > 0 and score < 2:
+        print('Green card!')
+    
+    elif score == 3:
+        print('Citizen!')
